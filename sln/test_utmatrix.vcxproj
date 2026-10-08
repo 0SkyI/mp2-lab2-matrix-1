@@ -104,7 +104,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\tmatrix.h" />
+    <ClInclude Include="..\include\utmatrix.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\test\test_main.cpp" />

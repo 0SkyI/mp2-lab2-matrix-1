@@ -10,7 +10,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\tmatrix.h">
+    <ClInclude Include="..\include\utmatrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

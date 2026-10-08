@@ -1,0 +1,29 @@
+sudo: false
+dist: trusty
+language: cpp
+
+matrix:
+  include:
+    - os: linux
+      compiler: gcc
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-4.9', 'cmake']
+      env: COMPILER=g++-4.9
+    - os: linux
+      compiler: clang
+      addons:
+        apt:
+          sources: ['llvm-toolchain-trusty-3.8']
+          packages: ['clang-3.8', 'cmake']
+      env: COMPILER=clang++-3.8
+
+before_script:
+  - export CXX=$COMPILER
+  - mkdir -p build && cd build
+
+script:
+  - cmake .. -DCMAKE_BUILD_TYPE=Release
+  - make -j2
+  - ctest --output-on-failure

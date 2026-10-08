@@ -93,7 +93,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\tmatrix.h" />
+    <ClInclude Include="..\include\utmatrix.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\samples\sample_matrix.cpp" />
