@@ -4,6 +4,7 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 # User-specific files
+
 *.rsuser
 *.suo
 *.user
@@ -17,6 +18,8 @@
 mono_crash.*
 
 # Build results
+build/*
+build/
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
@@ -33,6 +36,8 @@ bld/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
+.vscode/
+.vscode/*
 # Uncomment if you have tasks that create the project's static files in wwwroot
 #wwwroot/
 
