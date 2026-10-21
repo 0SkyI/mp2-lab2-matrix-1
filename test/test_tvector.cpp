@@ -250,3 +250,42 @@ TEST(TDynamicVector, cant_multiply_vectors_with_not_equal_size)
 
   EXPECT_EQ(0, v1 * v2); // скалярное произведение не определено: возвращаем T()
 }
+
+TEST(TDynamicVector, can_move_construct)
+{
+  TDynamicVector<int> v1(3);
+  v1[0] = 1; v1[1] = 2; v1[2] = 3;
+
+  TDynamicVector<int> v2(std::move(v1));
+
+  TDynamicVector<int> expected(3);
+  expected[0] = 1; expected[1] = 2; expected[2] = 3;
+  EXPECT_EQ(expected, v2);
+}
+
+TEST(TDynamicVector, can_move_assign)
+{
+  TDynamicVector<int> v1(3), v2(2);
+  v1[0] = 1; v1[1] = 2; v1[2] = 3;
+
+  v2 = std::move(v1);
+
+  TDynamicVector<int> expected(3);
+  expected[0] = 1; expected[1] = 2; expected[2] = 3;
+  EXPECT_EQ(expected, v2);
+}
+
+TEST(TDynamicVector, can_swap_vectors)
+{
+  TDynamicVector<int> v1(2), v2(3);
+  v1[0] = 1; v1[1] = 2;
+  v2[0] = 3; v2[1] = 4; v2[2] = 5;
+
+  swap(v1, v2);
+
+  TDynamicVector<int> expected1(3), expected2(2);
+  expected1[0] = 3; expected1[1] = 4; expected1[2] = 5;
+  expected2[0] = 1; expected2[1] = 2;
+  EXPECT_EQ(expected1, v1);
+  EXPECT_EQ(expected2, v2);
+}

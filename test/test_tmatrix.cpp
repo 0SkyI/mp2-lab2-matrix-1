@@ -245,3 +245,37 @@ TEST(TDynamicMatrix, cant_multiply_matrices_with_not_equal_size)
 
   ASSERT_ANY_THROW(m1 * m2);
 }
+
+TEST(TDynamicMatrix, can_move_construct)
+{
+  TDynamicMatrix<int> m1(2);
+  m1[0][0] = 1; m1[0][1] = 2; m1[1][0] = 3; m1[1][1] = 4;
+
+  TDynamicMatrix<int> m2(std::move(m1));
+
+  TDynamicMatrix<int> expected(2);
+  expected[0][0] = 1; expected[0][1] = 2; expected[1][0] = 3; expected[1][1] = 4;
+  EXPECT_TRUE(m2 == expected);
+}
+
+TEST(TDynamicMatrix, can_move_assign)
+{
+  TDynamicMatrix<int> m1(2), m2(1);
+  m1[0][0] = 1; m1[0][1] = 2; m1[1][0] = 3; m1[1][1] = 4;
+
+  m2 = std::move(m1);
+
+  TDynamicMatrix<int> expected(2);
+  expected[0][0] = 1; expected[0][1] = 2; expected[1][0] = 3; expected[1][1] = 4;
+  EXPECT_TRUE(m2 == expected);
+}
+
+TEST(TDynamicMatrix, can_swap_matrices)
+{
+  TDynamicMatrix<int> m1(2), m2(3);
+
+  swap(m1, m2);
+
+  EXPECT_EQ(3u, m1.size());
+  EXPECT_EQ(2u, m2.size());
+}

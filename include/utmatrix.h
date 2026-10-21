@@ -196,11 +196,17 @@ class TDynamicMatrix : private TDynamicVector<TDynamicVector<T>>
 {
   using TDynamicVector<TDynamicVector<T>>::pMem;
   using TDynamicVector<TDynamicVector<T>>::sz;
-public:
-  TDynamicMatrix(size_t s = 1) : TDynamicVector<TDynamicVector<T>>(s)
+
+  // Проверка допустимого размера матрицы (до аллокации памяти)
+  static size_t CheckSize(size_t s)
   {
-    if (sz > static_cast<size_t>(MAX_MATRIX_SIZE))
+    if (s > static_cast<size_t>(MAX_MATRIX_SIZE))
       throw out_of_range("Matrix size should be not greater than MAX_MATRIX_SIZE");
+    return s;
+  }
+public:
+  TDynamicMatrix(size_t s = 1) : TDynamicVector<TDynamicVector<T>>(CheckSize(s))
+  {
     for (size_t i = 0; i < sz; i++)
       pMem[i] = TDynamicVector<T>(sz);
   }
