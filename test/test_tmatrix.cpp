@@ -1,9 +1,6 @@
-// ННГУ, ИИТММ, Курс "Методы программирования 2"
-//
 // Лабораторная работа 1. Тесты класса TDynamicMatrix
 
 #include "utmatrix.h"
-
 #include <gtest.h>
 
 TEST(TDynamicMatrix, can_create_matrix_with_positive_length)
