@@ -4,24 +4,29 @@
 #include <gtest.h>
 
 TEST(TDynamicVector, can_create_vector_with_positive_length) {
+  // нормальный размер, не должен кидаться
   ASSERT_NO_THROW(TDynamicVector<int> v(5));
 }
 
 TEST(TDynamicVector, cant_create_too_large_vector) {
+  // больше MAX_VECTOR_SIZE — исключение
   ASSERT_ANY_THROW(TDynamicVector<int> v(MAX_VECTOR_SIZE + 1));
 }
 
 TEST(TDynamicVector, throws_when_create_vector_with_negative_length) {
+  // минус при приведении к size_t станет огромным числом
   ASSERT_ANY_THROW(TDynamicVector<int> v(-5));
 }
 
 TEST(TDynamicVector, can_create_copied_vector) {
+  // конструктор копирования
   TDynamicVector<int> v(10);
 
   ASSERT_NO_THROW(TDynamicVector<int> v1(v));
 }
 
 TEST(TDynamicVector, copied_vector_is_equal_to_source_one) {
+  // копия равна оригиналу по содержимому
   TDynamicVector<int> v(5);
   for (size_t i = 0; i < v.size(); i++)
     v[i] = static_cast<int>(i) * 3;
@@ -31,6 +36,7 @@ TEST(TDynamicVector, copied_vector_is_equal_to_source_one) {
 }
 
 TEST(TDynamicVector, copied_vector_has_its_own_memory) {
+  // deep copy: правки в копии не трогают оригинал
   TDynamicVector<int> v(5);
   v[0] = 42;
   TDynamicVector<int> v1(v);
@@ -42,12 +48,14 @@ TEST(TDynamicVector, copied_vector_has_its_own_memory) {
 }
 
 TEST(TDynamicVector, can_get_size) {
+  // size() возвращает длину вектора
   TDynamicVector<int> v(4);
 
   EXPECT_EQ(4, v.size());
 }
 
 TEST(TDynamicVector, can_set_and_get_element) {
+  // запись через [] и чтение обратно
   TDynamicVector<int> v(4);
   v[0] = 4;
 
@@ -55,12 +63,14 @@ TEST(TDynamicVector, can_set_and_get_element) {
 }
 
 TEST(TDynamicVector, throws_when_set_element_with_negative_index) {
+  // at() с выходом за границы снизу (минус превращается в огромное size_t)
   TDynamicVector<int> v(4);
 
   ASSERT_THROW(v.at(static_cast<size_t>(-1)), out_of_range);
 }
 
 TEST(TDynamicVector, throws_when_set_element_with_too_large_index) {
+  // at() с индексом сверху за границей
   TDynamicVector<int> v(4);
 
   ASSERT_ANY_THROW(v.at(4) = 5);
@@ -68,6 +78,7 @@ TEST(TDynamicVector, throws_when_set_element_with_too_large_index) {
 }
 
 TEST(TDynamicVector, can_assign_vector_to_itself) {
+  // самоприсваивание, ничего не должно сломаться/утечь
   TDynamicVector<int> v(3);
   v[0] = 1; v[1] = 2; v[2] = 3;
 
@@ -80,6 +91,7 @@ TEST(TDynamicVector, can_assign_vector_to_itself) {
 }
 
 TEST(TDynamicVector, can_assign_vectors_of_equal_size) {
+  // присваивание одинаковых по размеру
   TDynamicVector<int> v1(3), v2(3);
   v1[0] = 1; v1[1] = 2; v1[2] = 3;
   v2[0] = 4; v2[1] = 5; v2[2] = 6;
@@ -90,6 +102,7 @@ TEST(TDynamicVector, can_assign_vectors_of_equal_size) {
 }
 
 TEST(TDynamicVector, assign_operator_change_vector_size) {
+  // после присваивания размер берётся от источника
   TDynamicVector<int> v1(2), v2(5);
 
   v1 = v2;
@@ -98,6 +111,7 @@ TEST(TDynamicVector, assign_operator_change_vector_size) {
 }
 
 TEST(TDynamicVector, can_assign_vectors_of_different_size) {
+  // разные размеры, переприсваивание в обе стороны
   TDynamicVector<int> v1(2), v2(7);
   for (size_t i = 0; i < v2.size(); i++)
     v2[i] = static_cast<int>(i);
@@ -114,6 +128,7 @@ TEST(TDynamicVector, can_assign_vectors_of_different_size) {
 }
 
 TEST(TDynamicVector, compare_equal_vectors_return_true) {
+  // == на одинаковых, != должен быть false
   TDynamicVector<int> v1(3), v2(3);
   for (size_t i = 0; i < 3; i++)
   {
@@ -126,6 +141,7 @@ TEST(TDynamicVector, compare_equal_vectors_return_true) {
 }
 
 TEST(TDynamicVector, compare_vector_with_itself_return_true) {
+  // сравнение с самим собой
   TDynamicVector<int> v(3);
 
   EXPECT_TRUE(v == v);
@@ -133,6 +149,7 @@ TEST(TDynamicVector, compare_vector_with_itself_return_true) {
 }
 
 TEST(TDynamicVector, vectors_with_different_size_are_not_equal) {
+  // разные размеры => не равны
   TDynamicVector<int> v1(3), v2(4);
 
   EXPECT_TRUE(v1 != v2);
@@ -140,6 +157,7 @@ TEST(TDynamicVector, vectors_with_different_size_are_not_equal) {
 }
 
 TEST(TDynamicVector, can_add_scalar_to_vector) {
+  // каждый элемент + число
   TDynamicVector<int> v(3);
   v[0] = 1; v[1] = 2; v[2] = 3;
 
@@ -151,6 +169,7 @@ TEST(TDynamicVector, can_add_scalar_to_vector) {
 }
 
 TEST(TDynamicVector, can_subtract_scalar_from_vector) {
+  // каждый элемент - число
   TDynamicVector<int> v(3);
   v[0] = 1; v[1] = 2; v[2] = 3;
 
@@ -162,6 +181,7 @@ TEST(TDynamicVector, can_subtract_scalar_from_vector) {
 }
 
 TEST(TDynamicVector, can_multiply_scalar_by_vector) {
+  // умножение на скаляр поэлементно
   TDynamicVector<int> v(3);
   v[0] = 1; v[1] = 2; v[2] = 3;
 
@@ -173,6 +193,7 @@ TEST(TDynamicVector, can_multiply_scalar_by_vector) {
 }
 
 TEST(TDynamicVector, can_add_vectors_with_equal_size) {
+  // покомпонентное сложение
   TDynamicVector<int> v1(3), v2(3);
   v1[0] = 1; v1[1] = 2; v1[2] = 3;
   v2[0] = 4; v2[1] = 5; v2[2] = 6;
@@ -185,12 +206,14 @@ TEST(TDynamicVector, can_add_vectors_with_equal_size) {
 }
 
 TEST(TDynamicVector, cant_add_vectors_with_not_equal_size) {
+  // сложение разных размеров — исключение
   TDynamicVector<int> v1(3), v2(4);
 
   ASSERT_ANY_THROW(v1 + v2);
 }
 
 TEST(TDynamicVector, can_subtract_vectors_with_equal_size) {
+  // покомпонентное вычитание
   TDynamicVector<int> v1(3), v2(3);
   v1[0] = 4; v1[1] = 5; v1[2] = 6;
   v2[0] = 1; v2[1] = 2; v2[2] = 3;
@@ -203,12 +226,14 @@ TEST(TDynamicVector, can_subtract_vectors_with_equal_size) {
 }
 
 TEST(TDynamicVector, cant_subtract_vectors_with_not_equal_size) {
+  // вычитание разных размеров — тоже кидается
   TDynamicVector<int> v1(3), v2(4);
 
   ASSERT_ANY_THROW(v1 - v2);
 }
 
 TEST(TDynamicVector, can_multiply_vectors_with_equal_size) {
+  // скалярное произведение, считаем руками: 1*4+2*5+3*6 = 32
   TDynamicVector<int> v1(3), v2(3);
   v1[0] = 1; v1[1] = 2; v1[2] = 3;
   v2[0] = 4; v2[1] = 5; v2[2] = 6;
@@ -217,12 +242,14 @@ TEST(TDynamicVector, can_multiply_vectors_with_equal_size) {
 }
 
 TEST(TDynamicVector, cant_multiply_vectors_with_not_equal_size) {
+  // разные размеры — скалярное произведение не определено
   TDynamicVector<int> v1(3), v2(4);
 
   EXPECT_EQ(0, v1 * v2); // скалярное произведение не определено: возвращаем T()
 }
 
 TEST(TDynamicVector, can_move_construct) {
+  // move-конструктор, данные должны переехать в новый вектор
   TDynamicVector<int> v1(3);
   v1[0] = 1; v1[1] = 2; v1[2] = 3;
 
@@ -234,6 +261,7 @@ TEST(TDynamicVector, can_move_construct) {
 }
 
 TEST(TDynamicVector, can_move_assign) {
+  // move-присваивание, старый буфер v2 должен замениться
   TDynamicVector<int> v1(3), v2(2);
   v1[0] = 1; v1[1] = 2; v1[2] = 3;
 
@@ -245,6 +273,7 @@ TEST(TDynamicVector, can_move_assign) {
 }
 
 TEST(TDynamicVector, can_swap_vectors) {
+  // swap меняет векторы местами, размеры тоже
   TDynamicVector<int> v1(2), v2(3);
   v1[0] = 1; v1[1] = 2;
   v2[0] = 3; v2[1] = 4; v2[2] = 5;
