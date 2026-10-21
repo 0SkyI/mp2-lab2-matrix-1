@@ -4,22 +4,22 @@
 #include <gtest.h>
 
 TEST(TDynamicMatrix, can_create_matrix_with_positive_length) {
-  // обычный размер — создаёт без исключений
+  // обычный размер
   ASSERT_NO_THROW(TDynamicMatrix<int> m(5));
 }
 
 TEST(TDynamicMatrix, cant_create_too_large_matrix) {
-  // больше MAX_MATRIX_SIZE кидает
+  // больше MAX_MATRIX_SIZE
   ASSERT_ANY_THROW(TDynamicMatrix<int> m(MAX_MATRIX_SIZE + 1));
 }
 
 TEST(TDynamicMatrix, throws_when_create_matrix_with_negative_length) {
-  // минус при приведении к size_t станет огромным числом, тоже должно кидать
+  // минус при приведении к size_t станет огромным числом
   ASSERT_ANY_THROW(TDynamicMatrix<int> m(-5));
 }
 
 TEST(TDynamicMatrix, can_create_copied_matrix) {
-  // конструктор копирования в принципе работает
+  // конструктор копирования
   TDynamicMatrix<int> m(5);
 
   ASSERT_NO_THROW(TDynamicMatrix<int> m1(m));
@@ -172,7 +172,7 @@ TEST(TDynamicMatrix, can_add_matrices_with_equal_size) {
 }
 
 TEST(TDynamicMatrix, cant_add_matrices_with_not_equal_size) {
-  // разный размер — бросает
+  // разный размер — бросает исключение
   TDynamicMatrix<int> m1(2), m2(3);
 
   ASSERT_ANY_THROW(m1 + m2);
@@ -191,7 +191,7 @@ TEST(TDynamicMatrix, can_subtract_matrices_with_equal_size) {
 }
 
 TEST(TDynamicMatrix, cant_subtract_matrixes_with_not_equal_size) {
-  // тут тоже разный размер кидает
+  // тут тоже разный размер кидает исключение
   TDynamicMatrix<int> m1(2), m2(3);
 
   ASSERT_ANY_THROW(m1 - m2);
@@ -245,7 +245,7 @@ TEST(TDynamicMatrix, can_multiply_matrices_with_equal_size) {
 }
 
 TEST(TDynamicMatrix, cant_multiply_matrices_with_not_equal_size) {
-  // разный размер — кидает
+  // разный размер — кидает исключение
   TDynamicMatrix<int> m1(2), m2(3);
 
   ASSERT_ANY_THROW(m1 * m2);
