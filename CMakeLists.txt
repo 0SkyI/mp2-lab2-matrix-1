@@ -29,3 +29,11 @@ add_test(NAME utmatrix_tests COMMAND test_utmatrix)
 add_executable(sample_utmatrix
   "${CMAKE_SOURCE_DIR}/samples/sample_matrix.cpp"
 )
+
+# Быстрый запуск примера: cmake --build . --target run_sample
+add_custom_target(run_sample
+  COMMAND sample_utmatrix
+  DEPENDS sample_utmatrix
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+  COMMENT "Запуск тестового приложения sample_matrix"
+)
